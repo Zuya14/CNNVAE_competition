@@ -51,9 +51,9 @@ class EncoderInceptionBasic(nn.Module):
         super().__init__()
 
         if batchNorm:
-            createConv = createBasicConv
-        else:
             createConv = createNormConv
+        else:
+            createConv = createBasicConv
 
         self.conv1 = createConv(in_channels, in_channels, kernel_size=1)
 
@@ -90,9 +90,9 @@ class DecoderInceptionBasic(nn.Module):
         super().__init__()
 
         if batchNorm:
-            createConv = createBasicConvT
-        else:
             createConv = createNormConvT
+        else:
+            createConv = createBasicConvT
 
         self.conv1 = createConv(in_channels, in_channels, kernel_size=1)
 

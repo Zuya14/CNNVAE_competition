@@ -3,13 +3,13 @@ import torch.nn as nn
 import torch.utils.data
 import torch.optim as optim
 
-from CNNVAE import CNNVAE
+from .CNNVAE import CNNVAE
 
 class CNNVAE_trainer:
 
     def __init__(self, first_channel, latent_size, repeat=0, batchNorm=False, device='cpu'):
         self.vae = CNNVAE(first_channel, latent_size, repeat, batchNorm)
-        self.vae = self.vae.to(device)
+        self.vae = self.vae.to(device, non_blocking=True)
         self.device = device
 
         self.optimizer = optim.Adam(self.vae.parameters())
@@ -21,7 +21,7 @@ class CNNVAE_trainer:
         KLD_loss = 0
 
         for batch_idx, data in enumerate(train_loader):
-            data = data.to(self.device)
+            data = data.to(self.device).view(-1, 1, 1080)
 
             self.optimizer.zero_grad()
             
@@ -51,7 +51,7 @@ class CNNVAE_trainer:
         
         with torch.no_grad():
             for batch_idx, data in enumerate(test_loader):
-                data = data.to(self.device)
+                data = data.to(self.device).view(-1, 1, 1080)
 
                 recon_batch, mu, logvar = self.vae(data)
                 

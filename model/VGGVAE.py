@@ -82,7 +82,7 @@ class Encoder(jit.ScriptModule):
         h = x
         for layer in self.layers:
             h = layer(h)
-            print(h.size())
+            # print(h.size())
         h = h.view(-1, self.cnn_outsize)
 
         mu     = self.fc1(h)
@@ -119,11 +119,11 @@ class Decoder(jit.ScriptModule):
         x = self.fc(z)
 
         x = x.view(-1, self.last_channel, int(self.cnn_outsize/self.last_channel))
-        print(x.size())
+        # print(x.size())
 
         for layer in self.layers:
             x = layer(x)
-            print(x.size())
+            # print(x.size())
 
         return x
 

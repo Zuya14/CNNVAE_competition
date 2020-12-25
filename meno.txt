@@ -1,1 +1,8 @@
-python train VGGVAE.py --epochs 100 --batch-size 64 --channels 1 64 --cnn-outsize 34560 --latent 18 --id "run0"
+python train_VGGVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --id "run0"
+
+python train_VGGVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --id "run1" --models "./result-VGGVAE/run0/channels_1_64_latent_18/vae100.pth"
+
+python train_CNNVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --id "run0"
+
+python train_InceptionVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --id "run0"
+python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --id "run0"

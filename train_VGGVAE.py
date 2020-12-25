@@ -59,8 +59,8 @@ if __name__ == '__main__':
     lidarTestDatasets = LidarDatasets(test_filenames)
     lidarTestDatasets.limit(1080)
 
-    train_loader = torch.utils.data.DataLoader(lidarTrainDatasets, batch_size = args.batch_size, shuffle = True)
-    test_loader  = torch.utils.data.DataLoader(lidarTestDatasets,  batch_size = args.batch_size, shuffle = False)
+    train_loader = torch.utils.data.DataLoader(lidarTrainDatasets, batch_size = args.batch_size, shuffle = True,  num_workers=2, pin_memory=True)
+    test_loader  = torch.utils.data.DataLoader(lidarTestDatasets,  batch_size = args.batch_size, shuffle = False, num_workers=2, pin_memory=True)
 
     ''' ---- Train ---- '''
 
@@ -115,7 +115,7 @@ if __name__ == '__main__':
             vae_train.save(out_dir+'/vae{}.pth'.format(epoch))
             
             vae_train.vae.eval()
-            data = lidarTrainDatasets.data[:100].to(device)
+            data = lidarTrainDatasets.data[:100].to(device, non_blocking=True).view(-1, 1, 1080)
 
             recon_x, mu, logvar = vae_train.vae(data)
             save_image(torch.cat([data.view(-1,1080), recon_x.view(-1,1080)], dim=1), '{}/result{}.png'.format(out_dir, epoch))
