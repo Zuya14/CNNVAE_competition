@@ -1,8 +1,18 @@
 python train_VGGVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --id "run0"
-
 python train_VGGVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --id "run1" --models "./result-VGGVAE/run0/channels_1_64_latent_18/vae100.pth"
+python train_VGGVAE.py --epochs 100 --batch-size 512 --channels 1 64 128 256 --cnn-outsize 34560 --latent 18 --id "run2"
 
 python train_CNNVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --id "run0"
+python train_CNNVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 1 --id "run4"
 
 python train_InceptionVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --id "run0"
 python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --id "run0"
+
+python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 16 --repeat 0 --id "run1"
+python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 9 --first-channel 8 --repeat 0 --id "run2"
+python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 36 --first-channel 8 --repeat 0 --id "run3"
+python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 1 --id "run4"
+python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 4 --repeat 0 --id "run5"
+python train_InceptionAllVAE.py --epochs 100 --batch-size 2048 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 2 --id "run6"
+
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --id "run0"
