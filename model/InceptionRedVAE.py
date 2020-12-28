@@ -295,6 +295,7 @@ class InceptionRedVAE(jit.ScriptModule):
     def loss_function(self, recon_x, x, mu, logvar):
 
         x2 = torch.clamp(x.view(recon_x.size()), 1e-24, 1.0-1e-24)
+        recon_x = torch.clamp(recon_x, 1e-24, 1.0-1e-24)
 
         BCE = F.binary_cross_entropy(recon_x, x2, reduction='sum')
 

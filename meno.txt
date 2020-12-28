@@ -16,3 +16,8 @@ python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 -
 python train_InceptionAllVAE.py --epochs 100 --batch-size 2048 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 2 --id "run6"
 
 python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --id "run0"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 2 --id "run1"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 16 --repeat 0 --red-times 4 --id "run2"
+
+poolingの後にconv1入れる？
+InceptionEncodeをAvgPool (stride4) + 1x1 Convｂにしたら？
