@@ -7,8 +7,8 @@ from .InceptionRedVAE import InceptionRedVAE
 
 class InceptionRedVAE_trainer:
 
-    def __init__(self, first_channel, latent_size, red_times, repeat=0, device='cpu'):
-        self.vae = InceptionRedVAE(first_channel, latent_size, red_times, repeat)
+    def __init__(self, first_channel, latent_size, red_times, repeat, channel_inc, device='cpu'):
+        self.vae = InceptionRedVAE(first_channel, latent_size, red_times, repeat, channel_inc)
         self.vae = self.vae.to(device, non_blocking=True)
         self.device = device
 

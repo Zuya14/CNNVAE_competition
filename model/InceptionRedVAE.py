@@ -134,31 +134,33 @@ class InceptionDecoder(jit.ScriptModule):
 
 class Encoder(jit.ScriptModule):
 
-    def __init__(self, first_channel: int, latent_size: int, red_times: int, repeat: int=0):
+    def __init__(self, first_channel: int, latent_size: int, red_times: int, repeat: int=0, channel_inc: int=2):
         super().__init__()
 
         k = first_channel
 
         self.repeat = repeat
 
-        self.conv1 = InceptionEncoder(   1,    k,    k//red_times, stride=3)
-        self.conv2 = InceptionEncoder(   k,  2*k,  2*k//red_times, stride=3)
-        self.conv3 = InceptionEncoder( 2*k,  4*k,  4*k//red_times, stride=3)
-        self.conv4 = InceptionEncoder( 4*k,  8*k,  8*k//red_times, stride=2)
-        self.conv5 = InceptionEncoder( 8*k, 16*k, 16*k//red_times, stride=2)
-        self.conv6 = InceptionEncoder(16*k, 32*k, 32*k//red_times, stride=2)
+        c = channel_inc
+
+        self.conv1 = InceptionEncoder(       1,        k,        k//red_times, stride=3)
+        self.conv2 = InceptionEncoder(       k,      c*k,      c*k//red_times, stride=3)
+        self.conv3 = InceptionEncoder(     c*k, (c**2)*k, (c**2)*k//red_times, stride=3)
+        self.conv4 = InceptionEncoder((c**2)*k, (c**3)*k, (c**3)*k//red_times, stride=2)
+        self.conv5 = InceptionEncoder((c**3)*k, (c**4)*k, (c**4)*k//red_times, stride=2)
+        self.conv6 = InceptionEncoder((c**4)*k, (c**5)*k, (c**5)*k//red_times, stride=2)
         
         if self.repeat > 0:
-            self.module1 = nn.Sequential(*[InceptionModule(   k,    k,    k//red_times) for _ in range(self.repeat)])
-            self.module2 = nn.Sequential(*[InceptionModule( 2*k,  2*k,  2*k//red_times) for _ in range(self.repeat)])
-            self.module3 = nn.Sequential(*[InceptionModule( 4*k,  4*k,  4*k//red_times) for _ in range(self.repeat)])
-            self.module4 = nn.Sequential(*[InceptionModule( 8*k,  8*k,  8*k//red_times) for _ in range(self.repeat)])
-            self.module5 = nn.Sequential(*[InceptionModule(16*k, 16*k, 16*k//red_times) for _ in range(self.repeat)])
-            self.module6 = nn.Sequential(*[InceptionModule(32*k, 32*k, 32*k//red_times) for _ in range(self.repeat)])
+            self.module1 = nn.Sequential(*[InceptionModule(       k,        k,        k//red_times) for _ in range(self.repeat)])
+            self.module2 = nn.Sequential(*[InceptionModule(     c*k,      c*k,      c*k//red_times) for _ in range(self.repeat)])
+            self.module3 = nn.Sequential(*[InceptionModule((c**2)*k, (c**2)*k, (c**2)*k//red_times) for _ in range(self.repeat)])
+            self.module4 = nn.Sequential(*[InceptionModule((c**3)*k, (c**3)*k, (c**3)*k//red_times) for _ in range(self.repeat)])
+            self.module5 = nn.Sequential(*[InceptionModule((c**4)*k, (c**4)*k, (c**4)*k//red_times) for _ in range(self.repeat)])
+            self.module6 = nn.Sequential(*[InceptionModule((c**5)*k, (c**5)*k, (c**5)*k//red_times) for _ in range(self.repeat)])
 
         self._forward = self._forward2 if self.repeat > 0 else self._forward1
 
-        self.embedding_size = 5*32*k
+        self.embedding_size = 5*(c**5)*k
 
         self.fc1 = nn.Linear(self.embedding_size, latent_size)
         self.fc2 = nn.Linear(self.embedding_size, latent_size)
@@ -204,30 +206,32 @@ class Encoder(jit.ScriptModule):
 
 class Decoder(jit.ScriptModule):
 
-    def __init__(self, last_channel: int, latent_size: int, red_times: int, repeat: int=0):
+    def __init__(self, last_channel: int, latent_size: int, red_times: int, repeat: int=0, channel_inc: int=2):
         super().__init__()
 
         k = last_channel
         self.repeat = repeat
 
-        self.embedding_size = 5*32*k
+        self.embedding_size = 5*(c**5)*k
 
         self.fc = nn.Linear(latent_size, self.embedding_size)
 
-        self.convT1 = InceptionDecoder(32*k, 16*k, 32*k//red_times, stride=2)
-        self.convT2 = InceptionDecoder(16*k,  8*k, 16*k//red_times, stride=2)
-        self.convT3 = InceptionDecoder( 8*k,  4*k,  8*k//red_times, stride=2)
-        self.convT4 = InceptionDecoder( 4*k,  2*k,  4*k//red_times, stride=3)
-        self.convT5 = InceptionDecoder( 2*k,    k,  2*k//red_times, stride=3)
-        self.convT6 = InceptionDecoder(   k,    1,    k//red_times, stride=3, lastFlag=True)
+        c = channel_inc
+
+        self.convT1 = InceptionDecoder((c**5)*k, (c**4)*k, (c**5)*k//red_times, stride=2)
+        self.convT2 = InceptionDecoder((c**4)*k, (c**3)*k, (c**4)*k//red_times, stride=2)
+        self.convT3 = InceptionDecoder((c**3)*k, (c**2)*k, (c**3)*k//red_times, stride=2)
+        self.convT4 = InceptionDecoder((c**2)*k,      c*k, (c**2)*k//red_times, stride=3)
+        self.convT5 = InceptionDecoder(     c*k,        k,      c*k//red_times, stride=3)
+        self.convT6 = InceptionDecoder(       k,        1,        k//red_times, stride=3, lastFlag=True)
 
         if self.repeat > 0:
-            self.module1 = nn.Sequential(*[InceptionModule(32*k, 32*k, 32*k//red_times) for _ in range(self.repeat)])
-            self.module2 = nn.Sequential(*[InceptionModule(16*k, 16*k, 16*k//red_times) for _ in range(self.repeat)])
-            self.module3 = nn.Sequential(*[InceptionModule( 8*k,  8*k,  8*k//red_times) for _ in range(self.repeat)])
-            self.module4 = nn.Sequential(*[InceptionModule( 4*k,  4*k,  4*k//red_times) for _ in range(self.repeat)])
-            self.module5 = nn.Sequential(*[InceptionModule( 2*k,  2*k,  2*k//red_times) for _ in range(self.repeat)])
-            self.module6 = nn.Sequential(*[InceptionModule(   k,    k,    k//red_times) for _ in range(self.repeat)])
+            self.module1 = nn.Sequential(*[InceptionModule((c**5)*k, (c**5)*k, (c**5)*k//red_times) for _ in range(self.repeat)])
+            self.module2 = nn.Sequential(*[InceptionModule((c**4)*k, (c**4)*k, (c**4)*k//red_times) for _ in range(self.repeat)])
+            self.module3 = nn.Sequential(*[InceptionModule((c**3)*k, (c**3)*k, (c**3)*k//red_times) for _ in range(self.repeat)])
+            self.module4 = nn.Sequential(*[InceptionModule((c**2)*k, (c**2)*k, (c**2)*k//red_times) for _ in range(self.repeat)])
+            self.module5 = nn.Sequential(*[InceptionModule(     c*k,      c*k,      c*k//red_times) for _ in range(self.repeat)])
+            self.module6 = nn.Sequential(*[InceptionModule(       k,        k,        k//red_times) for _ in range(self.repeat)])
 
         self._forward = self._forward2 if self.repeat > 0 else self._forward1
 
@@ -273,10 +277,10 @@ class Decoder(jit.ScriptModule):
 
 class InceptionRedVAE(jit.ScriptModule):
 
-    def __init__(self, first_channel: int, latent_size: int, red_times: int, repeat: int=0):
+    def __init__(self, first_channel: int, latent_size: int, red_times: int, repeat: int=0, channel_inc: int=2)):
         super().__init__()
-        self.encoder = Encoder(first_channel, latent_size, red_times, repeat)
-        self.decoder = Decoder(first_channel, latent_size, red_times, repeat)
+        self.encoder = Encoder(first_channel, latent_size, red_times, repeat, channel_inc)
+        self.decoder = Decoder(first_channel, latent_size, red_times, repeat, channel_inc)
 
     def forward(self, x):
         mu, logvar = self.encoder(x)
