@@ -20,7 +20,13 @@ python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 -
 python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 16 --repeat 0 --red-times 4 --id "run2"
 
 python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 1 --id "run3"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 16 --repeat 0 --red-times 1 --channel-inc 1 --id "run4"
 
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 1 --red-times 1 --channel-inc 2 --id "run5"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 1 --red-times 2 --channel-inc 2 --id "run6"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 2 --red-times 2 --channel-inc 2 --id "run7"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 1 --red-times 3 --channel-inc 2 --id "run8"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 16 --repeat 0 --red-times 1 --channel-inc 2 --id "run9"
 
 
 poolingの後にconv1入れる？

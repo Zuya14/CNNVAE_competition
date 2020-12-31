@@ -54,6 +54,7 @@ class InceptionModule(jit.ScriptModule):
         self.conv3_2 = BasicConv(out_channels, out_channels, kernel_size=3, padding=1)
 
         self.pool3 = nn.MaxPool1d(kernel_size=3, stride=1, padding=1)
+        self.pool_conv1 = BasicConv(out_channels, out_channels, kernel_size=1)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         
@@ -67,6 +68,7 @@ class InceptionModule(jit.ScriptModule):
         y_c5 = self.conv3_2(y_c5)
 
         y_p3 = self.pool3(x)
+        y_p3 = self.pool_conv1(y_p3)
 
         out = y_c1 + y_c3 + y_c5 + y_p3
 
@@ -212,11 +214,11 @@ class Decoder(jit.ScriptModule):
         k = last_channel
         self.repeat = repeat
 
+        c = channel_inc
+
         self.embedding_size = 5*(c**5)*k
 
         self.fc = nn.Linear(latent_size, self.embedding_size)
-
-        c = channel_inc
 
         self.convT1 = InceptionDecoder((c**5)*k, (c**4)*k, (c**5)*k//red_times, stride=2)
         self.convT2 = InceptionDecoder((c**4)*k, (c**3)*k, (c**4)*k//red_times, stride=2)
@@ -277,7 +279,7 @@ class Decoder(jit.ScriptModule):
 
 class InceptionRedVAE(jit.ScriptModule):
 
-    def __init__(self, first_channel: int, latent_size: int, red_times: int, repeat: int=0, channel_inc: int=2)):
+    def __init__(self, first_channel: int, latent_size: int, red_times: int, repeat: int=0, channel_inc: int=2):
         super().__init__()
         self.encoder = Encoder(first_channel, latent_size, red_times, repeat, channel_inc)
         self.decoder = Decoder(first_channel, latent_size, red_times, repeat, channel_inc)
@@ -299,9 +301,18 @@ class InceptionRedVAE(jit.ScriptModule):
     def loss_function(self, recon_x, x, mu, logvar):
 
         x2 = torch.clamp(x.view(recon_x.size()), 1e-24, 1.0-1e-24)
-        recon_x = torch.clamp(recon_x, 1e-24, 1.0-1e-24)
+        recon_x2 = torch.clamp(recon_x, 1e-24, 1.0-1e-24)
 
-        BCE = F.binary_cross_entropy(recon_x, x2, reduction='sum')
+        # print(torch.min(recon_x2))
+
+        # assert (torch.min(recon_x) >= 0. and torch.max(recon_x) <= 1.)
+        # assert (torch.min(x2) >= 0. and torch.max(x2) <= 1.)
+        # assert (torch.min(recon_x2) >= 0.)
+        # assert (torch.max(recon_x2) <= 1.)
+        # assert (torch.min(x2) >= 0.)
+        # assert (torch.max(x2) <= 1.)
+
+        BCE = F.binary_cross_entropy(recon_x2, x2, reduction='sum')
 
         # 0.5*(1 + log(sigma^2) - mu^2 - sigma^2) 
         # 実装ではsigmaがマイナスになるとlogsigmaを求められないためか、2*logsigmaをlogvarと置いて
@@ -310,7 +321,7 @@ class InceptionRedVAE(jit.ScriptModule):
 
         KLD = 0.5 * torch.sum(mu.pow(2) + logvar.exp() - logvar - 1)
         # KLD = 0
-
+        # print(KLD)
         return BCE, KLD
 
 
