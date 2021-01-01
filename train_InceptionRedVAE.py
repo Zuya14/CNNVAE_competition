@@ -44,6 +44,7 @@ if __name__ == '__main__':
     parser.add_argument("--first-channel", type=int, default=8)
     parser.add_argument("--red-times", type=int, default=1)
     parser.add_argument("--channel-inc", type=int, default=2)
+    parser.add_argument('--warmup', action='store_true')
 
     args = parser.parse_args()
 
@@ -96,10 +97,15 @@ if __name__ == '__main__':
 
     for epoch in range(1, args.epochs+1):
 
-        mse_loss, KLD_loss = vae_train.train(train_loader)
+        if args.warmup:
+            k = epoch/args.epochs
+        else:
+            k = 1.0
+
+        mse_loss, KLD_loss = vae_train.train(train_loader, k)
         loss = mse_loss + KLD_loss
 
-        test_loss = vae_train.test(test_loader)
+        test_loss = vae_train.test(test_loader, k)
 
         plotGraph.addDatas('train_loss', ['train_loss', 'mse_loss', 'KLD_loss'], [loss, mse_loss, KLD_loss])
         plotGraph.addDatas('test_loss', ['test_loss'], [test_loss])
@@ -110,11 +116,12 @@ if __name__ == '__main__':
             plotGraph.plot('train_loss')
             plotGraph.plot('test_loss')
 
-            print('epoch [{}/{}], loss: {:.4f} test_loss: {:.4f}'.format(
+            print('epoch [{}/{}], loss: {:.4f} test_loss: {:.4f}, k: {}'.format(
                 epoch + 1,
                 args.epochs,
                 loss,
-                test_loss))       
+                test_loss,
+                k))       
 
         if epoch % (args.epochs//10) == 0:
             vae_train.save(out_dir+'/vae{}.pth'.format(epoch))

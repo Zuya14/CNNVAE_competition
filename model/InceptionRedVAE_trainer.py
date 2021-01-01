@@ -14,7 +14,7 @@ class InceptionRedVAE_trainer:
 
         self.optimizer = optim.Adam(self.vae.parameters())
 
-    def train(self, train_loader):
+    def train(self, train_loader, k=1.0):
         self.vae.train()
 
         mse_loss = 0
@@ -29,6 +29,7 @@ class InceptionRedVAE_trainer:
             
             mse, KLD = self.vae.loss_function(recon_batch, data, mu, logvar)
             
+            KLD = k*KLD
             loss = mse + KLD
             loss.backward()
             
@@ -44,7 +45,7 @@ class InceptionRedVAE_trainer:
 
         return mse_loss, KLD_loss
 
-    def test(self, test_loader):
+    def test(self, test_loader, k=1.0):
         self.vae.eval()
 
         test_loss = 0
@@ -56,6 +57,7 @@ class InceptionRedVAE_trainer:
                 recon_batch, mu, logvar = self.vae(data)
                 
                 mse, KLD = self.vae.loss_function(recon_batch, data, mu, logvar)
+                KLD = k*KLD
                 
                 loss = mse + KLD
                 test_loss += loss.item()
