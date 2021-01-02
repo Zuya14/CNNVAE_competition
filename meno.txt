@@ -31,10 +31,11 @@ python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 -
 python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt"
 python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt/more100" --models "./result-InceptionRedVAE/adopt/channels_1_64_latent_18/vae100.pth"
 python train_InceptionRedVAE.py --epochs 300 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt/more300" --models "./result-InceptionRedVAE/adopt/more100/channels_1_64_latent_18/vae100.pth"
-python train_InceptionRedVAE.py --epochs 300 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt/more500" --models "./result-InceptionRedVAE/adopt/more300/channels_1_64_latent_18/vae300.pth"
+python train_InceptionRedVAE.py --epochs 500 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt/more500" --models "./result-InceptionRedVAE/adopt/more300/channels_1_64_latent_18/vae300.pth"
 
 python train_InceptionRedVAE_Leaky.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt"
-
+python train_InceptionRedVAE_Leaky.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt/more100" --models "./result-InceptionRedVAE_Leaky/adopt/channels_1_64_latent_18/vae100.pth"
+python train_InceptionRedVAE_Leaky.py --epochs 300 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt/more300" --models "./result-InceptionRedVAE_Leaky/adopt/more100/channels_1_64_latent_18/vae100.pth"
 
 poolingの後にconv1入れる？
 InceptionEncodeをAvgPool (stride4) + 1x1 Convｂにしたら？
