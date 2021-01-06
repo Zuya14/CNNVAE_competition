@@ -43,7 +43,7 @@ if __name__ == '__main__':
     parser.add_argument("--repeat", type=int, default=0)
     parser.add_argument("--first-channel", type=int, default=8)
     parser.add_argument('--batchnorm', action='store_true')
-
+    
     args = parser.parse_args()
 
     s_time = datetime.datetime.now()

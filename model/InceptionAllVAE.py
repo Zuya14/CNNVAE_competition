@@ -400,9 +400,9 @@ class InceptionAllVAE(jit.ScriptModule):
             z = mu
 
         recon_x = self.decoder(z)
+        
         return recon_x, mu, logvar
 
-    @torch.jit.script
     def loss_function(self, recon_x, x, mu, logvar):
 
         # print(torch.min(recon_x), torch.max(recon_x))
