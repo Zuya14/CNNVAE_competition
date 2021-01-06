@@ -2,17 +2,21 @@ import torch
 import torch.nn as nn
 import torch.utils.data
 import torch.optim as optim
+import torch_optimizer as optim_
 
 from .InceptionRedVAE import InceptionRedVAE
 
 class InceptionRedVAE_trainer:
 
-    def __init__(self, first_channel, latent_size, red_times, repeat, channel_inc, device='cpu'):
+    def __init__(self, first_channel, latent_size, red_times, repeat, channel_inc, adaBelief=False, device='cpu'):
         self.vae = InceptionRedVAE(first_channel, latent_size, red_times, repeat, channel_inc)
         self.vae = self.vae.to(device, non_blocking=True)
         self.device = device
 
-        self.optimizer = optim.Adam(self.vae.parameters())
+        if adaBelief:
+            self.optimizer = optim_.AdaBelief(self.vae.parameters())
+        else:
+            self.optimizer = optim.Adam(self.vae.parameters())
 
     def train(self, train_loader, k=1.0):
         self.vae.train()

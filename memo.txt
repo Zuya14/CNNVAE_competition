@@ -1,0 +1,57 @@
+python train_VGGVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --id "run0"
+python train_VGGVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --id "run1" --models "./result-VGGVAE/run0/channels_1_64_latent_18/vae100.pth"
+python train_VGGVAE.py --epochs 100 --batch-size 512 --channels 1 64 128 256 --cnn-outsize 34560 --latent 18 --id "run2"
+
+python train_CNNVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --id "run0"
+python train_CNNVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 1 --id "run4"
+
+python train_InceptionVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --id "run0"
+python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --id "run0"
+
+python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 16 --repeat 0 --id "run1"
+python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 9 --first-channel 8 --repeat 0 --id "run2"
+python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 36 --first-channel 8 --repeat 0 --id "run3"
+python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 1 --id "run4"
+python train_InceptionAllVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 4 --repeat 0 --id "run5"
+python train_InceptionAllVAE.py --epochs 100 --batch-size 2048 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 2 --id "run6"
+
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --id "run0"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 2 --id "run1"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 16 --repeat 0 --red-times 4 --id "run2"
+
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 1 --id "run3"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 16 --repeat 0 --red-times 1 --channel-inc 1 --id "run4"
+
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 1 --red-times 1 --channel-inc 2 --id "run5"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 1 --red-times 2 --channel-inc 2 --id "run6"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 2 --red-times 2 --channel-inc 2 --id "run7"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 1 --red-times 3 --channel-inc 2 --id "run8"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 16 --repeat 0 --red-times 1 --channel-inc 2 --id "run9"
+
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt/more100" --models "./result-InceptionRedVAE/adopt/channels_1_64_latent_18/vae100.pth"
+python train_InceptionRedVAE.py --epochs 300 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt/more300" --models "./result-InceptionRedVAE/adopt/more100/channels_1_64_latent_18/vae100.pth"
+python train_InceptionRedVAE.py --epochs 500 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt/more500" --models "./result-InceptionRedVAE/adopt/more300/channels_1_64_latent_18/vae300.pth"
+
+python train_InceptionRedVAE_Leaky.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt"
+python train_InceptionRedVAE_Leaky.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt/more100" --models "./result-InceptionRedVAE_Leaky/adopt/channels_1_64_latent_18/vae100.pth"
+python train_InceptionRedVAE_Leaky.py --epochs 300 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --id "adopt/more300" --models "./result-InceptionRedVAE_Leaky/adopt/more100/channels_1_64_latent_18/vae100.pth"
+
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --adabelief --id "adopt_belief"
+python train_InceptionRedVAE.py --epochs 100 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --adabelief --id "adopt_belief/more100" --models "./result-InceptionRedVAE/adopt_belief/channels_1_64_latent_18/vae100.pth"
+python train_InceptionRedVAE.py --epochs 300 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --adabelief --id "adopt_belief/more300" --models "./result-InceptionRedVAE/adopt_belief/more100/channels_1_64_latent_18/vae100.pth"
+python train_InceptionRedVAE.py --epochs 500 --batch-size 1024 --channels 1 64 --cnn-outsize 34560 --latent 18 --first-channel 8 --repeat 0 --red-times 1 --channel-inc 2 --adabelief --id "adopt_belief/more500" --models "./result-InceptionRedVAE/adopt_belief/more300/channels_1_64_latent_18/vae300.pth"
+
+
+poolingの後にconv1入れる？
+InceptionEncodeをAvgPool (stride4) + 1x1 Convｂにしたら？
+
+python train_NNVAE.py --epochs 100 --batch-size 1024 --latent 18 --hiddens 1081 1081 1081 1081 1081 1081 --id "run0"
+python train_NNVAE.py --epochs 100 --batch-size 1024 --latent 18 --hiddens 900 720 540 360 180 --id "run2"
+python train_NNVAE.py --epochs 100 --batch-size 1024 --latent 18 --hiddens 180 --id "run3"
+
+python train_NNVAE.py --epochs 100 --batch-size 1024 --latent 18 --hiddens 1081 1081 1081 1081 1081 1081 --id "run0_bn" --batchnorm
+python train_NNVAE.py --epochs 100 --batch-size 1024 --latent 18 --hiddens 900 720 540 360 180 --id "run2_bn" --batchnorm
+python train_NNVAE.py --epochs 100 --batch-size 1024 --latent 18 --hiddens 180 --id "run3_bn" --batchnorm
+
+python train_NNVAE.py --epochs 100 --batch-size 1024 --latent 18 --hiddens 1081 1081 1081 1081 1081 1081 --id "run0_bn" --batchnorm --models "./result-NNVAE/run0_bn/hiddens_1081_1081_1081_1081_1081_1081_latent_18/vae100.pth"
