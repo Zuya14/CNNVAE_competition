@@ -126,7 +126,7 @@ if __name__ == '__main__':
                 k))       
 
         if epoch % (args.epochs//10) == 0:
-            vae_train.save(out_dir+'/vae{}.pth'.format(epoch))
+            # vae_train.save(out_dir+'/vae{}.pth'.format(epoch))
             
             vae_train.vae.eval()
             data = lidarTrainDatasets.data[:100].to(device, non_blocking=True).view(-1, 1, 1080)

@@ -93,6 +93,11 @@ if __name__ == '__main__':
     test_plot_data  = plot_graph.Plot_Graph_Data(out_dir, 'test_loss',  {'test_loss': []})
     plotGraph = plot_graph.Plot_Graph([train_plot_data, test_plot_data])
 
+    losses = []
+    test_losses = []
+
+    f = open(out_dir + '/loss.txt', 'w')
+
     for epoch in range(1, args.epochs+1):
 
         mse_loss, KLD_loss = vae_train.train(train_loader)
@@ -102,6 +107,9 @@ if __name__ == '__main__':
 
         plotGraph.addDatas('train_loss', ['train_loss', 'mse_loss', 'KLD_loss'], [loss, mse_loss, KLD_loss])
         plotGraph.addDatas('test_loss', ['test_loss'], [test_loss])
+
+        losses.append(loss)
+        test_losses.append(test_losses)
 
         if epoch%10 == 0:
             vae_train.save(out_dir+'/vae.pth')
@@ -115,6 +123,14 @@ if __name__ == '__main__':
                 loss,
                 test_loss))       
 
+            if len(losses) > 10:
+                losses = losses[-10:]
+                test_losses = test_losses[-10:]
+
+            avg_loss = sum(losses) / len(losses)
+            avg_test_loss = sum(test_losses) / len(test_losses)
+            f.write('{:4d}: avg_loss:{:3.8f}, avg_test_loss\n'.format(avg_loss, avg_test_loss))
+
         if epoch % (args.epochs//10) == 0:
             vae_train.save(out_dir+'/vae{}.pth'.format(epoch))
             
@@ -125,6 +141,8 @@ if __name__ == '__main__':
             save_image(torch.cat([data.view(-1,1080), recon_x.view(-1,1080)], dim=1), '{}/result{}.png'.format(out_dir, epoch))
             
             print("save:epoch", epoch)
+
+    f.close()
 
     e_time = datetime.datetime.now()
 
