@@ -109,7 +109,7 @@ if __name__ == '__main__':
         plotGraph.addDatas('test_loss', ['test_loss'], [test_loss])
 
         losses.append(loss)
-        test_losses.append(test_losses)
+        test_losses.append(test_loss)
 
         if epoch%10 == 0:
             vae_train.save(out_dir+'/vae.pth')
