@@ -139,7 +139,7 @@ if __name__ == '__main__':
 
             avg_loss = sum(losses) / len(losses)
             avg_test_loss = sum(test_losses) / len(test_losses)
-            f.write('{:4d}: avg_loss:{:3.8f}, avg_test_loss\n'.format(avg_loss, avg_test_loss))
+            f.write('{:4d}: avg_loss:{:3.8f}, avg_test_loss:{:3.8f}\n'.format(epoch, avg_loss, avg_test_loss))
 
         if epoch % (args.epochs//10) == 0:
             # vae_train.save(out_dir+'/vae{}.pth'.format(epoch))
