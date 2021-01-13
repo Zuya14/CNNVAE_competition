@@ -45,6 +45,7 @@ if __name__ == '__main__':
     parser.add_argument("--red-times", type=int, default=1)
     parser.add_argument("--channel-inc", type=int, default=2)
     parser.add_argument('--warmup', action='store_true')
+    parser.add_argument("--beta", type=float, default=1.0)
 
     parser.add_argument('--adabelief', action='store_true')
 
@@ -88,7 +89,7 @@ if __name__ == '__main__':
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
 
-    vae_train =  InceptionRedVAE_trainer(args.first_channel, args.latent, red_times=args.red_times, repeat=args.repeat, channel_inc=args.channel_inc, adaBelief=args.adabelief, device=device)
+    vae_train =  InceptionRedVAE_trainer(args.first_channel, args.latent, red_times=args.red_times, repeat=args.repeat, channel_inc=args.channel_inc, adaBelief=args.adabelief, device=device, beta=args.beta)
 
     if args.models is not '' and os.path.exists(args.models):
         vae_train.load(args.models)

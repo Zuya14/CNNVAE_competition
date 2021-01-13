@@ -8,7 +8,7 @@ from .InceptionRedVAE import InceptionRedVAE
 
 class InceptionRedVAE_trainer:
 
-    def __init__(self, first_channel, latent_size, red_times, repeat, channel_inc, adaBelief=False, device='cpu'):
+    def __init__(self, first_channel, latent_size, red_times, repeat, channel_inc, adaBelief=False, device='cpu', beta=1.0):
         self.vae = InceptionRedVAE(first_channel, latent_size, red_times, repeat, channel_inc)
         self.vae = self.vae.to(device, non_blocking=True)
         self.device = device
@@ -17,6 +17,8 @@ class InceptionRedVAE_trainer:
             self.optimizer = optim_.AdaBelief(self.vae.parameters())
         else:
             self.optimizer = optim.Adam(self.vae.parameters())
+
+        self.beta = beta
 
     def train(self, train_loader, k=1.0):
         self.vae.train()
@@ -33,7 +35,7 @@ class InceptionRedVAE_trainer:
             
             mse, KLD = self.vae.loss_function(recon_batch, data, mu, logvar)
             
-            KLD = k*KLD
+            KLD = k*self.beta*KLD
             loss = mse + KLD
             loss.backward()
             
@@ -61,7 +63,7 @@ class InceptionRedVAE_trainer:
                 recon_batch, mu, logvar = self.vae(data)
                 
                 mse, KLD = self.vae.loss_function(recon_batch, data, mu, logvar)
-                KLD = k*KLD
+                KLD = k*self.beta*KLD
                 
                 loss = mse + KLD
                 test_loss += loss.item()

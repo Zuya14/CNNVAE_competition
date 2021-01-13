@@ -313,6 +313,7 @@ class InceptionRedVAE(jit.ScriptModule):
         # assert (torch.max(x2) <= 1.)
 
         BCE = F.binary_cross_entropy(recon_x2, x2, reduction='sum')
+        # BCE = F.binary_cross_entropy(recon_x2, x2)
 
         # 0.5*(1 + log(sigma^2) - mu^2 - sigma^2) 
         # 実装ではsigmaがマイナスになるとlogsigmaを求められないためか、2*logsigmaをlogvarと置いて
