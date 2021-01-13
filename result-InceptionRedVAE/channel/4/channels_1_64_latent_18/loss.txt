@@ -1,0 +1,6 @@
+  10: avg_loss:35764.02548648, avg_test_loss:604.36989859
+  20: avg_loss:592.12702714, avg_test_loss:592.45927797
+  30: avg_loss:592.15496450, avg_test_loss:592.46090703
+  40: avg_loss:592.06623366, avg_test_loss:592.45349250
+  50: avg_loss:592.64034741, avg_test_loss:592.54260500
+  60: avg_loss:591.83591486, avg_test_loss:592.44745625
